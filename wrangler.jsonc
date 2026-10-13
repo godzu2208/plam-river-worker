@@ -1,45 +1,35 @@
-/**
- * For more details on how to configure Wrangler, refer to:
- * https://developers.cloudflare.com/workers/wrangler/configuration/
- */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "lead-webhook-worker",
 	"main": "src/index.js",
 	"compatibility_date": "2026-08-03",
-	"observability": {
-		"enabled": true
-	},
+	"observability": { "enabled": true },
 	"upload_source_maps": true,
-	"compatibility_flags": [
-		"nodejs_compat"
-	]
-	/**
-	 * Smart Placement
-	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
-	 */
-	// "placement": {  "mode": "smart" }
-	/**
-	 * Bindings
-	 * Bindings allow your Worker to interact with resources on the Cloudflare Developer Platform, including
-	 * databases, object storage, AI inference, real-time communication and more.
-	 * https://developers.cloudflare.com/workers/runtime-apis/bindings/
-	 */
-	/**
-	 * Environment Variables
-	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
-	 * Note: Use secrets to store sensitive data.
-	 * https://developers.cloudflare.com/workers/configuration/secrets/
-	 */
-	// "vars": {  "MY_VARIABLE": "production_value" }
-	/**
-	 * Static Assets
-	 * https://developers.cloudflare.com/workers/static-assets/binding/
-	 */
-	// "assets": {  "directory": "./public/",  "binding": "ASSETS" }
-	/**
-	 * Service Bindings (communicate between multiple Workers)
-	 * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings
-	 */
-	// "services": [  {   "binding": "MY_SERVICE",   "service": "my-service"  } ]
+	"compatibility_flags": ["nodejs_compat"],
+
+	"vars": {
+		// Analytics /collect
+		"TRACK_ALLOWED_ORIGINS": "https://canho-palmriver.vn,https://www.canho-palmriver.vn,https://palm-river.vercel.app",
+		"EVENT_RETENTION_DAYS": "180",
+
+		// Admin API
+		"ADMIN_ALLOWED_ORIGINS": "https://admin.canho-palmriver.vn",
+		"ALLOWED_EMAIL_DOMAIN": "rever.vn",
+		"SUPABASE_URL": "https://xhwforduvbfnuggdesjs.supabase.co",
+		"SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhod2ZvcmR1dmJmbnVnZ2Rlc2pzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4MjgyMTcsImV4cCI6MjEwNDQwNDIxN30.co_ueGrFSnClPY4UYun9m8oOodX6_KqChc7OhkBUrCA",
+		"BOOTSTRAP_OWNER_EMAILS": "linhlh@rever.vn",
+	},
+
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "palm-river-analytics",
+			"database_id": "3f264687-914c-466c-95e4-f19723ca1f2e",
+			"migrations_dir": "migrations",
+			"remote": true,
+		},
+	],
+
+	// 03:17 giờ VN: dọn event quá hạn
+	"triggers": { "crons": ["17 20 * * *"] },
 }
